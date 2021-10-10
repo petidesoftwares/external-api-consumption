@@ -145,96 +145,22 @@ class BooksController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $updateData = [
+            'name' => $request->input('name'),
+            'isbn' =>$request->input('isbn'),
+            'authors'=>$request->input('authors'),
+            'country' =>$request->input('country'),
+            'number_of_pages' =>$request->input('number_of_pages'),
+            'publisher' => $request->input('publisher'),
+            'release_date'=>$request->input('release_date')
+            ];
         $oldName = Books::where('id',$id)->get('name');
-        if($request->name != "" || $request->name != null){
-            $update = Books::updateOrCreate(
-                ['id'=>$id],
-                ['name'=>$request->name]
-            );
-            $update['authors']=json_decode($update->authors,true);
-            return response()->json(['status_code'=>200,
-                'status'=>'success',
-                'message'=>'The book '.$oldName[0]->name.' was updated successfully',
-                'data'=>$update
-            ]);
-        }
-        elseif($request->isbn != "" || $request->isbn != null){
-            $update = Books::updateOrCreate(
-                ['id'=>$id],
-                ['isbn'=>$request->isbn]
-            );
-            $update['authors']=json_decode($update->authors,true);
-            return response()->json(['status_code'=>200,
-                'status'=>'success',
-                'message'=>'The book '.$oldName[0]->name.' was updated successfully',
-                'data'=>$update
-            ]);
-        }
-        elseif($request->authors == "" || $request->authors != null){
-            $update = Books::updateOrCreate(
-                ['id'=>$id],
-                ['authors'=>$request->authors]
-            );
-            $update['authors']=json_decode($update->authors,true);
-            return response()->json(['status_code'=>200,
-                'status'=>'success',
-                'message'=>'The book '.$oldName[0]->name.' was updated successfully',
-                'data'=>$update
-            ]);
-        }
-        elseif($request->country != "" || $request->country != null){
-            $update = Books::updateOrCreate(
-                ['id'=>$id],
-                ['country'=>$request->country]
-            );
-            $update['authors']=json_decode($update->authors,true);
-            return response()->json(['status_code'=>200,
-                'status'=>'success',
-                'message'=>'The book '.$oldName[0]->name.' was updated successfully',
-                'data'=>$update
-            ]);
-        }
-        elseif($request->number_of_pages != "" || $request->number_pages != null){
-            $update = Books::updateOrCreate(
-                ['id'=>$id],
-                ['number_of_pages'=>$request->number_of_pages]
-            );
-            $update['authors']=json_decode($update->authors,true);
-            return response()->json(['status_code'=>200,
-                'status'=>'success',
-                'message'=>'The book '.$oldName[0]->name.' was updated successfully',
-                'data'=>$update
-            ]);
-        }
-        elseif($request->publisher != "" || $request->publisher != null){
-            $update = Books::updateOrCreate(
-                ['id'=>$id],
-                ['publisher'=>$request->publisher]
-            );
-            $update['authors']=json_decode($update->authors,true);
-            return response()->json(['status_code'=>200,
-                'status'=>'success',
-                'message'=>'The book '.$oldName[0]->name.' was updated successfully',
-                'data'=>$update
-            ]);
-        }
-        elseif($request->release_date != "" || $request->release_date != null){
-            $update = Books::updateOrCreate(
-                ['id'=>$id],
-                ['release_date'=>$request->release_date]
-            );
-            $update['authors']=json_decode($update->authors,true);
-            return response()->json(['status_code'=>200,
-                'status'=>'success',
-                'message'=>'The book '.$oldName[0]->name.' was updated successfully',
-                'data'=>$update
-            ]);
-        }else{
-            return response()->json([
-                'status_code'=>404,
-                'status'=>'Not Found',
-                'message'=>'Book not found']);
-        }
+        $update = Books::where('id',$id)->update($updateData);
+        return response()->json(['status_code'=>200,
+            'status'=>'success',
+            'message'=>'The book '.$oldName[0]->name.' was updated successfully',
+            'data'=>$update
+        ]);
 
     }
 
